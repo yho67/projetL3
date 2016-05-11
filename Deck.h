@@ -22,11 +22,14 @@ class Deck
 	Deck(int nombrecartes, std::vector<Carte*> cartes_restantes); //constructeur
 	~Deck(); //destructeur
 	Deck(Deck &); //constructeur de recopie
+
 	//accesseur
 	int GetNombreCartes(){return m_nombrecartes;}
 	std::vector<Carte*> GetCartesRestantes(){return m_cartesrestantes;}
+
 	//mutateur
 	//On ne met pas de mutateur car on ne veut pas pouvoir modifier directement le deck (ce serait de la triche ! ) mais uniquement en passant par les méthodes associés.
+
 	// méthodes particulières
 	void Initialise(int nombrecartes, std::vector<Carte*> cartesrestantes);
 	void Melanger();

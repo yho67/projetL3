@@ -28,8 +28,8 @@
 // ---un objet "joueur" --> arguments : numéro, pseudo, main (tableau de pointeurs sur des objets cartes), argent
 //			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), encore (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
 //
-// ---un objet "table" --> arguments : joueurs (tableau de joueurs), mises (tableau des mises), mainbanque (tableau de pointeurs sur des objets cartes), 
-//                         méthodes :   miser, encore (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur).
+// ---un objet "table" --> arguments : joueurs (tableau de joueurs, tableau de 6 cases car 6 joueurs max), mises (tableau des mises), mainbanque (tableau de pointeurs sur des objets cartes), 
+//                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur).
 //
 //
 //
