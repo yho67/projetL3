@@ -36,13 +36,15 @@
 
 
 //----------------------------ne pas oublier--------------------------------
-// -- constructeur de recopie pour le deck
+// -- constructeur de recopie pour le deck et méthode mélanger
 
 #include <iostream>
 #include <string>
 #include <vector> 
+#include <cstdlib>
 
-#include "Carte.h" //classe carte
+#include "Carte.h"
+#include "Deck.h" 
  
 using namespace std;
 
@@ -74,9 +76,10 @@ int main()
 		VectPointeurCartes.push_back(&tabCartes[i]);
 		// /!\ pour appeler les méthodes il faudra alors faire VectPointCartes[i]->GetNumero()
 	}
-	
-	cout<<VectPointeurCartes.back()->GetCouleur()<<endl;
 
+	Deck deck(52, VectPointeurCartes);
+	deck.Melanger();
+	
 	return 0;
 }
 
