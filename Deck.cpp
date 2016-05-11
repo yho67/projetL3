@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <ctime>
 #include "Carte.h"
 
 using namespace std;
@@ -44,6 +45,9 @@ void Deck::Melanger()
 // on va modifier aleatoirement l'ordre des cartes
 // pour ça il faut commencer par pouvoir faire : [1, 2, 3, 4] --> [3, 2, 4, 1]
 
+	//on commence par initialiser srand()
+	srand(time(NULL));
+
 	//on va créer un vecteur contenant les nombres de 0 à m_nombrescartes-1
 	//on va générer un nombre aléatoire A allant de 0 à m_nombrescartes-1
 	//puis retirer l'entrée numéro A du vecteur
@@ -63,7 +67,7 @@ void Deck::Melanger()
 		int alea = rand()%n;// on prend un nombre aléatoire entre 0 et le nombre d'entrées restantes dans vecteur_ordonne-1
 		vecteur_ordre_alea.push_back(vecteur_ordonne[alea]); // on met le nombre de vecteur_ordonne correspondant à l'indice alea dans vecteur_ordre_alea en dernière position
 		vecteur_ordonne.erase(vecteur_ordonne.begin()+(alea), vecteur_ordonne.begin()+(alea+1)); // enfin on efface l'entrée
-		n-=1;
+		n-=1; // il y a une case de moins dans vecteur_ordonne
 	}
 	vecteur_ordre_alea.push_back(vecteur_ordonne[0]);//on ajoute le dernier restant de vecteur_ordonne
 	
@@ -76,7 +80,7 @@ void Deck::Melanger()
 	{
 		new_cartesrestantes.push_back(m_cartesrestantes[vecteur_ordre_alea[i]]);
 	}
-	
+
 	//enfin on remplace le précédent m_cartesrestantes par celui mélangé
 	m_cartesrestantes = new_cartesrestantes;
 	
@@ -90,4 +94,17 @@ Carte* Deck::Piocher()
 	m_nombrecartes -= 1;
 	return p;
 }
+
+void Deck::Affiche()
+{
+	for(int i =0; i<m_nombrecartes;i++)
+	{
+		cout<<m_cartesrestantes[i]->GetNumero()<<", "<<m_cartesrestantes[i]->GetCouleur()<<endl;
+	}
+	 
+}
+
+
+
+
 

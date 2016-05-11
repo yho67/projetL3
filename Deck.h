@@ -31,6 +31,7 @@ class Deck
 	void Initialise(int nombrecartes, std::vector<Carte*> cartesrestantes);
 	void Melanger();
 	Carte* Piocher();
+	void Affiche();
 	
 
 };

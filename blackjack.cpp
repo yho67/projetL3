@@ -36,7 +36,7 @@
 
 
 //----------------------------ne pas oublier--------------------------------
-// -- constructeur de recopie pour le deck et méthode mélanger
+//
 
 #include <iostream>
 #include <string>
@@ -74,11 +74,17 @@ int main()
 	for(int i =0; i<52;i++)
 	{
 		VectPointeurCartes.push_back(&tabCartes[i]);
-		// /!\ pour appeler les méthodes il faudra alors faire VectPointCartes[i]->GetNumero()
+		// /!\ pour appeler les méthodes il faudra alors faire VectPointeurCartes[i]->GetNumero()
 	}
 
 	Deck deck(52, VectPointeurCartes);
 	deck.Melanger();
+	deck.Affiche();
+	cout<<endl;
+	Carte* carte = deck.Piocher();
+	deck.Affiche();
+	cout<<"carte piochee "<< carte->GetNumero()<<" "<<carte->GetCouleur()<<endl;
+	
 	
 	return 0;
 }
