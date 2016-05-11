@@ -29,7 +29,7 @@
 //			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), encore (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
 //
 // ---un objet "table" --> arguments : joueurs (tableau de joueurs, tableau de 6 cases car 6 joueurs max), mises (tableau des mises), mainbanque (tableau de pointeurs sur des objets cartes), 
-//                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur).
+//                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur), AjouteJoueur (on vérifie qu'on en a pas déjà 6), EnleveJoueur(on met à sa place un "siège vide")
 //
 //
 //
@@ -48,7 +48,7 @@
  
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
 	// on va créer un tableau qui contient nos 52 cartes. (Ce n'est pas le deck ! juste la liste des cartes qu'on utilise).
 	Carte tabCartes[52];
