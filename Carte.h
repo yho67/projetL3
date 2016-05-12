@@ -29,7 +29,7 @@ class Carte
 	void SetCouleur(std::string couleur){m_couleur = couleur;}
 
 	// méthodes particulières
-	void ChangeValeurAs();
+	void ChangeValeurAs(int valeur);
 	void Initialise(int numero, std::string couleur);
 };
 

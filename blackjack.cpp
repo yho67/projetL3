@@ -26,7 +26,7 @@
 //                     méthodes : piocher (donne la carte la plus à gauche du tableau des cartes restantes et modifie le nombre de cartes), melanger (modifie aléatoirement l'ordre des cartes dans le tableau)
 //
 // ---un objet "joueur" --> arguments : numéro, pseudo, main (tableau de pointeurs sur des objets cartes), argent
-//			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), encore (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
+//			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), Pioche (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
 //
 // ---un objet "table" --> arguments : joueurs (tableau de joueurs, tableau de 6 cases car 6 joueurs max), mises (tableau des mises), mainbanque (tableau de pointeurs sur des objets cartes), 
 //                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur), AjouteJoueur (on vérifie qu'on en a pas déjà 6), EnleveJoueur(on met à sa place un "siège vide")
@@ -37,6 +37,7 @@
 
 //----------------------------ne pas oublier--------------------------------
 //
+//pouvoir personnaliser le nombre de joueur max, l'argent de départ (constructeur par défaut) grâce à des fichiers.
 
 #include <iostream>
 #include <string>
@@ -45,6 +46,8 @@
 
 #include "Carte.h"
 #include "Deck.h" 
+#include "Joueur.h"
+#include "Table.h"
  
 using namespace std;
 
@@ -78,12 +81,19 @@ int main(int argc, char *argv[])
 	}
 
 	Deck deck(52, VectPointeurCartes);
+	//on a créé notre Deck. Passons aux joueurs.
+	vector<Carte*> Main;
+	Joueur player(0, 500, "yho", Main);
+	Table table;
+	
 	deck.Melanger();
 	deck.Affiche();
 	cout<<endl;
-	Carte* carte = deck.Piocher();
-	deck.Affiche();
-	cout<<"carte piochee "<< carte->GetNumero()<<" "<<carte->GetCouleur()<<endl;
+
+	player.Pioche(&deck, &table);
+	player.Pioche(&deck, &table);
+	player.Pioche(&deck, &table);
+	player.Pioche(&deck, &table);
 	
 	
 	return 0;

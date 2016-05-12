@@ -63,17 +63,12 @@ Carte::Carte(Carte & A)
 	m_couleur = a;
 }
 
-void Carte::ChangeValeurAs()
+void Carte::ChangeValeurAs(int valeur)
 {
 	//on vérifie bien que c'est un as sur lequel on a appelé la méthode
 	if(m_numero == 1)
 	{
-		m_valeur = 1;
-	}
-	else
-	{	
-		cout<<" ce n'est pas un as"<<endl;
-		return;
+		m_valeur = valeur;
 	}
 }
 

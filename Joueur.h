@@ -7,6 +7,11 @@
 #include "Carte.h"
 #include "Deck.h"
 
+//---un objet "joueur" --> arguments : numéro, pseudo, main (tableau de pointeurs sur des objets cartes), argent
+//			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), Pioche (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
+
+class Table; // Juste pour lui dire que le type Table existe (forward declaration)
+
 class Joueur
 {
   	private:
@@ -34,8 +39,9 @@ class Joueur
 
 	// méthodes particulières
 	void Initialise(int numero, int argent, std::string pseudo, std::vector<Carte*> main);
-	void Miser(int mise);
-	void Pioche();
+	void Miser(int mise, Table* table);
+	void Pioche(Deck* deck, Table* table);
+	void AfficheMain();
   
   
   

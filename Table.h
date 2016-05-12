@@ -11,6 +11,8 @@
 //                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur).
 //
 
+class Joueur; //juste pour lui dire que la classe joueur existe
+
 class Table
 {
   	private:
@@ -37,6 +39,7 @@ class Table
 	// méthodes particulières
 	void Initialise(Joueur tabjoueur[], std::vector<int> tabmise, std::vector<Carte*> main_banque);
 	void Paye(Joueur& joueur);
+	void ModifMiseJoueur(int numero_joueur, int mise);
 	void Pioche();
 	void AjouterJoueur(Joueur joueur);
 	void EnleveJoueur(int numeroJoueur);

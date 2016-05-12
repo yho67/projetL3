@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "Table.h"
-#include "Deck.h"
-#include "Joueur.h"
+
+
 
 using namespace std;
 
@@ -24,7 +24,7 @@ Table::~Table()
   //destructeur
 }
 
-Table::Table(Table &)
+Table::Table(Table &table)
 {
   //constructeur de recopie
 }
@@ -39,17 +39,22 @@ void Table::Paye(Joueur& joueur)
 	// on connait le numéro du joueur qui est dans sa classe, ce qui donne son indice dans la table de mise également. Donc on peut modifier l'argent du joueur et la table de mise.
 }
 
+void Table::ModifMiseJoueur(int numero_joueur, int mise)
+{
+	
+}
+
 void Table::Pioche()
 {
 	// ajoute une carte à la main du croupier.
 }
 
-void AjouterJoueur(Joueur joueur)
+void Table::AjouterJoueur(Joueur joueur)
 {
 	
 }
 
-void EnleveJoueur(int numeroJoueur)
+void Table::EnleveJoueur(int numeroJoueur)
 {
 	
 }
