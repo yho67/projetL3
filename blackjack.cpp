@@ -28,7 +28,7 @@
 // ---un objet "joueur" --> arguments : numéro, pseudo, main (tableau de pointeurs sur des objets cartes), argent
 //			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), Pioche (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
 //
-// ---un objet "table" --> arguments : joueurs (tableau de joueurs, tableau de 6 cases car 6 joueurs max), mises (tableau des mises), mainbanque (tableau de pointeurs sur des objets cartes), 
+// ---un objet "table" --> arguments : joueurs (tableau de joueurs, tableau de 6 cases car 6 joueurs max), mises (tableau des mises), 
 //                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur), AjouteJoueur (on vérifie qu'on en a pas déjà 6), EnleveJoueur(on met à sa place un "siège vide")
 //
 //
@@ -37,17 +37,20 @@
 
 //----------------------------ne pas oublier--------------------------------
 //
-//pouvoir personnaliser le nombre de joueur max, l'argent de départ (constructeur par défaut) grâce à des fichiers.
+//pouvoir personnaliser le nombre de joueur max, l'argent de départ (constructeur par défaut), nombre de deck utilisé, grâce à des fichiers.
+//variable continue, dont on passe le pointeur à la méthode joueur (puis perdu) pour savoir si on peut continuer de piocher
 
 #include <iostream>
 #include <string>
 #include <vector> 
 #include <cstdlib>
 
+#include "Participant.h"
 #include "Carte.h"
 #include "Deck.h" 
 #include "Joueur.h"
 #include "Table.h"
+
  
 using namespace std;
 
@@ -83,18 +86,15 @@ int main(int argc, char *argv[])
 	Deck deck(52, VectPointeurCartes);
 	//on a créé notre Deck. Passons aux joueurs.
 	vector<Carte*> Main;
-	Joueur player(0, 500, "yho", Main);
-	Table table;
+	Table table(2);
+	Joueur player(0, 500, "yho", Main, &table);
+	
 	
 	deck.Melanger();
 	deck.Affiche();
-	cout<<endl;
-
-	player.Pioche(&deck, &table);
-	player.Pioche(&deck, &table);
-	player.Pioche(&deck, &table);
-	player.Pioche(&deck, &table);
 	
+	player.Pioche(&deck);
+
 	
 	return 0;
 }

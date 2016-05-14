@@ -16,35 +16,28 @@ Joueur::Joueur()
   	m_pseudo = ""; //les cartes que le joueur a sur la table
 }
 
-Joueur::Joueur(int numero, int argent, std::string pseudo, std::vector<Carte*> main)
+Joueur::Joueur(int numero, int argent, std::string pseudo, std::vector<Carte*> main, Table* ptable) : Participant(main, ptable), m_numero(numero), m_argent(argent), m_pseudo(pseudo)
 {
   //constructeur
-	m_numero = numero;
-	m_argent = argent;
-	m_pseudo = pseudo;
-	m_main = main;
 }
 
-Joueur::~Joueur()
-{
-  //destructeur
-}
-
-Joueur::Joueur(Joueur &joueur)
+Joueur::Joueur(Joueur const& joueur)
 {
   //constructeur de recopie
-	m_numero = joueur.GetNumero();
-	m_argent = joueur.GetArgent();
-	m_pseudo = joueur.GetPseudo();
-	m_main = joueur.GetMain(); //les vecteurs ont un système de copie efficace
+	m_numero = joueur.m_numero;
+	m_argent = joueur.m_argent;
+	m_pseudo = joueur.m_pseudo;
+	m_main = joueur.m_main; //les vecteurs ont un système de copie efficace
+	m_ptable = joueur.m_ptable;
 }
 
-void Joueur::Initialise(int numero, int argent, std::string pseudo, std::vector<Carte*> main)
+void Joueur::Initialise(int numero, int argent, std::string pseudo, std::vector<Carte*> main, Table* ptable)
 {
 	m_numero = numero;
 	m_argent = argent;
 	m_pseudo = pseudo;
 	m_main = main;
+	m_ptable = ptable;
 }
 
 void Joueur::Miser(int mise, Table* table)
@@ -65,53 +58,13 @@ void Joueur::Miser(int mise, Table* table)
 		table->ModifMiseJoueur(m_numero, mise); //on enregistre sa mise supplémentaire dans la table des mises
 	}
 }
-void Joueur::AfficheMain()
-{
-	for(int i=0; i<m_main.size();i++)
-	{
-		cout<<m_main[i]->GetNumero()<<" "<<m_main[i]->GetCouleur()<<"  ||  ";
-	}
-	cout<<endl;
-}
 
-void Joueur::Pioche(Deck* deck, Table* table)
+void Joueur::Perdu(int valeur_main)
 {
-	Carte* new_carte = deck->Piocher(); // pointeur sur la nouvelle carte qu'on a tiré
-	m_main.push_back(new_carte); // on l'ajoute a la main
-	//on affiche la nouvelle main puis on regarde si on a dépassé la valeur autorisé.
-	AfficheMain();
-	int valeur_main = 0;
-	bool modif_as = false;
-	for(int i=0; i<m_main.size();i++)
-	{
-		valeur_main+=m_main[i]->GetValeur(); 
-	}
-	//si valeur_main dépasse 21, on regarde si on a un as
-	if(valeur_main>21)
-	{
-		for(int i=0; i<m_main.size();i++)
-		{
-		//S'il a un as qui vaut 11, on change sa valeur et on sort de la boucle (modifier un seul as suffit)
-			if(m_main[i]->GetValeur()==11)
-			{
-				m_main[i]->ChangeValeurAs(1);
-				modif_as=true;
-				break;
-			}
-		}
-		if(modif_as) //si on a modifié un as, on est toujours dans le game
-		{
-			cout<<"Votre main a une valeur de "<<valeur_main<<endl;
-		}
-		else // si on a pas modifié l'as, on a dépassé 21 irrémédiablement
-		{
-			cout<<"Votre main a une valeur de "<<valeur_main<<endl;
-			cout<<"Perdu !"<<endl;
-			table->ModifMiseJoueur(m_numero, -1); // on remet la mise du joueur a 0;
-		}
-	}
+	Participant::Perdu(valeur_main); // on veut rajouter le changement des mises à la méthode porté définie dans Personnage
+	m_ptable->ModifMiseJoueur(m_numero, -1); // on remet la mise du joueur a 0;
+	
 }
-
 
 
 
