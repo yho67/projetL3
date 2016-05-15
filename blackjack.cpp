@@ -27,6 +27,7 @@
 //2 test pour valeur optimal : un avec paquet tjrs plein, l'autre avec le aquet qu'on vide a chaque fois (on remplit s'il reste 10 cartes ou moins)
 //mettre la main des joueurs qui n'ont pas gagné (pas d'appel Table.Paye pour eux ET qui n'ont pas dépassé 21) à 21
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector> 
 #include <cstdlib>
@@ -76,40 +77,99 @@ int main(int argc, char *argv[])
 	Deck deck_default(52, VectPointeurCartes); // paquet qu'on ne modifie pas
 	Deck deck(52, VectPointeurCartes);
 	//on a créé notre Deck. Passons aux joueurs.
-	vector<Carte*> main;
+	vector<Carte*> main_vide;
 	Table table(1);
-	Joueur player(0, 500, "yho67", main, &table);
+	Joueur player(0, 500, "yho67", main_vide, &table);
+	Participant croupier(main_vide, &table);
+	// notre programme va, dépendant de l'option avec lequel on l'appelle, effectuer divers actions
+	// 1 : calcul du seuil optimal
+	// 2 : bayesienne
+
+	//l'option est passé en option au programme en mode console
+	int option;
+	istringstream convert(argv[1]); //on convertit la première option de string à int
+
+	if ( !(convert >> option) )//on met le int converti dans option
+		option = 0;//s'il y a eu un problème, on retourne 0
 	
-	
-	
-	for(int i=0;i<10;i++)
-	{
-		// on initialise la main à vide au cas où.
-		player.SetMain(main);
-		deck = deck_default;
-		deck.Melanger();
-		bool perdu = false;
-		while(player.ValeurMain()<16 && !perdu) // si on est a 17 ou plus on s'arrête
+switch(option)
+{
+	case 0  :
+		cout<<"pas d'options spécifiées"<<endl;
+		break; 
+
+	case 1  :
+		//calcul du seuil optimal
+		for(int i=0;i<5;i++)
 		{
-			
-			player.Pioche(&deck);
-			perdu = player.Perdu();
+			// on initialise la main à vide au cas où.
+			player.SetMain(main_vide);
+			deck = deck_default;
+			deck.Melanger();
+			bool perdu = false;
+			while(player.ValeurMain()<16 && !perdu) // si on est a 17 ou plus on s'arrête
+			{
+				player.Pioche(&deck);
+				perdu = player.Perdu();
+			}
+			if(perdu)
+			{
+				//le joueur perd
+				cout<<endl;
+				cout<<"perdu"<<endl;
+			}
+			else //----------- passons à la banque---------------
+			{
+				cout<<endl;
+				cout<<"Voyons la banque"<<endl;cout<<endl;
+				croupier.SetMain(main_vide);
+				bool perdu_croupier = false;
+				while(croupier.ValeurMain()<17 && !perdu_croupier) // si on est a 17 ou plus on s'arrête
+				{
+					croupier.Pioche(&deck);
+					perdu_croupier = croupier.Perdu();
+				}
+				if(perdu_croupier)
+				{
+					// le joueur gagne
+					cout<<endl;
+					cout<<"le croupier a dépassé 21"<<endl;
+					cout<<"gagné!"<<endl;
+				}
+				else //si le croupier n'a pas dépassé 21, on compare son score avec celui du joueur
+				{
+					cout<<endl;
+					if(player.ValeurMain()<croupier.ValeurMain())
+					{
+						//le joueur perd
+						cout<<"perdu"<<endl; 
+					}
+					else if(player.ValeurMain()==croupier.ValeurMain())
+					{
+						//egalite
+						cout<<"egalite"<<endl;
+					}
+					else
+					{
+						//le joueur gagne
+						cout<<"gagné !"<<endl; 
+					}
+				}
+			}
+
+			cout<<endl;
+			cout<<"------------------------------------"<<endl; cout<<endl;		
 		}
-		if(perdu)
-		{
-			cout<<"perdu"<<endl;
-		}
-		else
-		{
-			cout<<"Voyons la banque"<<endl;
-		}
-		
-	}
+		break;
 
+	case 2:
+		//méthode bayesienne
+		break;
 
-	
+	default : 
+		cout<<"cete option n'existe pas"<<endl;
 
-
+}//fin du switch
 	
 
 
