@@ -9,6 +9,7 @@ Carte::Carte()
 //constructeur par défaut
 	m_numero = 0;
 	m_valeur = 0;
+	m_symbol = "nul";
 	m_couleur = "nul";
 }
 
@@ -33,6 +34,27 @@ Carte::Carte(int numero, string couleur)
 	{
 		cout<< "mauvaise couleur"<<endl;
 		m_couleur = "nul";
+	}
+	//passons au symbol
+	if(numero<=10 && numero >=2)
+	{
+		m_symbol = to_string(numero);
+	}
+	else if(numero == 1)
+	{
+		m_symbol = "As"; //l'as
+	}
+	else if(numero == 11)
+	{
+		m_symbol = "J";//valet
+	}
+	else if(numero == 12)
+	{
+		m_symbol = "Q";//dame
+	}
+	else if(numero == 13)
+	{
+		m_symbol = "K";//roi
 	}
 	//enfin on s'occupe de la valeur (10 pour les tetes, numero=valeur pour le reste, as = 11 de base)
 	if(numero<=10 && numero >=2)
@@ -59,8 +81,8 @@ Carte::Carte(Carte & A)
  //constructeur de recopie
 	m_numero = A.GetNumero();
 	m_valeur = A.GetValeur();
-	string a = A.GetCouleur();
-	m_couleur = a;
+	m_couleur = A.GetCouleur();
+	m_symbol = A.GetSymbol();
 }
 
 void Carte::ChangeValeurAs(int valeur)
@@ -93,6 +115,27 @@ void Carte::Initialise(int numero, string couleur)
 	{
 		cout<< "mauvaise couleur"<<endl;
 		m_couleur = "nul";
+	}
+	//passons au symbol
+	if(numero<=10 && numero >=2)
+	{
+		m_symbol = to_string(numero);
+	}
+	else if(numero == 1)
+	{
+		m_symbol = "As"; //l'as
+	}
+	else if(numero == 11)
+	{
+		m_symbol = "J";//valet
+	}
+	else if(numero == 12)
+	{
+		m_symbol = "Q";//dame
+	}
+	else if(numero == 13)
+	{
+		m_symbol = "K";//roi
 	}
 	//enfin on s'occupe de la valeur (10 pour les tetes, numero=valeur pour le reste, as = 11 de base)
 	if(numero<=10 && numero >=2)

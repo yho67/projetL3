@@ -28,7 +28,7 @@ void Participant::AfficheMain()
 {
 	for(int i=0; i<m_main.size();i++)
 	{
-		cout<<m_main[i]->GetNumero()<<" "<<m_main[i]->GetCouleur()<<"  ||  ";
+		cout<<m_main[i]->GetSymbol()<<" "<<m_main[i]->GetCouleur()<<"  ||  ";
 	}
 	cout<<endl;
 }

@@ -32,6 +32,7 @@
 #include <vector> 
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 #include "Participant.h"
 #include "Carte.h"
@@ -100,8 +101,23 @@ switch(option)
 		break; 
 
 	case 1  :
-		//calcul du seuil optimal
-		for(int i=0;i<5;i++)
+	{
+		//visuel sur console de la simulation de poker a 1 joueur VS un croupier
+		
+		//on commence par ouvrir le fichier option1 qui contient le nombre de parties que l'on veut simuler
+		ifstream option1("./option1.txt");  
+
+		if(!option1)
+		{
+			//si on arrive pas a ouvrir le fichier on sort du prog
+			cout<<"Impossible de trouver le fichier option1"<<endl;
+			return 0;
+		}
+		int nbre_partie;
+		option1 >> nbre_partie;
+		option1.close();		
+		
+		for(int i=0;i<nbre_partie;i++)
 		{
 			
 			// on initialise la main à vide au cas où.
@@ -133,7 +149,7 @@ switch(option)
 					croupier.Pioche(&deck);
 					croupier.AfficheMain();
 					perdu_croupier = croupier.Perdu();
-					cout<<"Cette main vaut "<< player.GetValeurMain()<<" points"<<endl;
+					cout<<"main du croupier vaut "<< croupier.GetValeurMain()<<" points"<<endl;
 				}
 				if(perdu_croupier)
 				{
@@ -167,11 +183,106 @@ switch(option)
 			cout<<"------------------------------------"<<endl; cout<<endl;		
 		}
 		break;
-
+	}
 	case 2:
-		//méthode bayesienne
-		break;
+	{
+		//détermination du seuil optimal pour le joueur
+		
+		//on commence par ouvrir le fichier option2 qui contient le nombre de parties que l'on veut simuler pour chaque seuil
+		ifstream option2("./option2.txt");  
 
+		if(!option2)
+		{
+			//si on arrive pas a ouvrir le fichier on sort du prog
+			cout<<"Impossible de trouver le fichier option2"<<endl;
+			return 0;
+		}
+		int nbre_partie;
+		option2 >> nbre_partie;
+		option2.close();
+
+		//on ouvre le fichier dans lequel on va écrire le nombre de partie gagné || perdu || egalite en fonction du seuil  (fichier de la forme : seuil  nbre_gagne  nbre_perdu  nbre_egalite)
+		ofstream proba("./probaMonteCarlo.txt");
+		if(!proba)
+		{
+			cout<<"Impossible d'ouvrir le fichier probaMonteCarlo.txt"<<endl;
+			return 0;	
+		}
+		
+		int max_victoire = 0;
+		int seuil_optimal = 0;
+		for(int j=1;j<22;j++) //j sera notre seuil
+		{
+			proba<<j<<" ";
+			int nbre_gagne = 0;
+			int nbre_perdu = 0;
+			int nbre_egalite = 0;
+			for(int i=0;i<nbre_partie;i++)
+			{
+				// on initialise la main à vide au cas où.
+				player.ReinitialiseMain();
+				deck = deck_default;
+				deck.Melanger();
+				bool perdu = false;
+				while(player.GetValeurMain()<j && !perdu) // si on est a 17 ou plus on s'arrête
+				{
+					player.Pioche(&deck);
+					perdu = player.Perdu();
+				}
+				if(perdu)
+				{
+					//le joueur perd
+					nbre_perdu += 1;
+				}
+				else //----------- passons à la banque---------------
+				{
+					croupier.ReinitialiseMain();
+					bool perdu_croupier = false;
+					while(croupier.GetValeurMain()<17 && !perdu_croupier) // si on est a 17 ou plus on s'arrête
+					{
+						croupier.Pioche(&deck);
+						perdu_croupier = croupier.Perdu();
+					}
+					if(perdu_croupier)
+					{
+						// le joueur gagne
+						nbre_gagne += 1;
+					}
+					else //si le croupier n'a pas dépassé 21, on compare son score avec celui du joueur
+					{
+						if(player.GetValeurMain()<croupier.GetValeurMain())
+						{
+							//le joueur perd
+							nbre_perdu += 1;
+						}
+						else if(player.GetValeurMain()==croupier.GetValeurMain())
+						{
+							//egalite
+							nbre_egalite +=1;
+						}
+						else
+						{
+							//le joueur gagne
+							nbre_gagne +=1;
+						}
+					}
+				}
+	
+			}
+			//on enregistre les nbres de defaites/victoires dans le fichier.
+			proba<<nbre_gagne<<" "<<nbre_perdu<<" "<<nbre_egalite<<endl;
+			//et on détermine quel seuil est optimal
+			if(max_victoire<nbre_gagne)
+			{
+				max_victoire=nbre_gagne;
+				seuil_optimal = j;
+			}	
+		}
+		cout<<"seuil optimal est "<<seuil_optimal<<" avec "<<max_victoire<< " pour "<<nbre_partie<<" jouée."<<endl;
+		proba<<"seuil optimal est "<<seuil_optimal<<" avec "<<max_victoire<< " pour "<<nbre_partie<<" jouée."<<endl;
+		proba.close();
+		break;
+	}
 	default : 
 		cout<<"cete option n'existe pas"<<endl;
 

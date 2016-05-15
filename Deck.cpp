@@ -96,7 +96,7 @@ void Deck::Affiche()
 {
 	for(int i =0; i<m_nombrecartes;i++)
 	{
-		cout<<m_cartesrestantes[i]->GetNumero()<<", "<<m_cartesrestantes[i]->GetCouleur()<<", valeur : "<<m_cartesrestantes[i]->GetValeur()<<endl;
+		cout<<m_cartesrestantes[i]->GetSymbol()<<", "<<m_cartesrestantes[i]->GetCouleur()<<", valeur : "<<m_cartesrestantes[i]->GetValeur()<<endl;
 	}
 	 
 }
