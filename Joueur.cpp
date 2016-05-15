@@ -19,6 +19,7 @@ Joueur::Joueur()
 Joueur::Joueur(int numero, int argent, std::string pseudo, std::vector<Carte*> main, Table* ptable) : Participant(main, ptable), m_numero(numero), m_argent(argent), m_pseudo(pseudo)
 {
   //constructeur
+	m_valeur_main = CalculValeurMain();
 }
 
 Joueur::Joueur(Joueur const& joueur)
@@ -29,6 +30,8 @@ Joueur::Joueur(Joueur const& joueur)
 	m_pseudo = joueur.m_pseudo;
 	m_main = joueur.m_main; //les vecteurs ont un système de copie efficace
 	m_ptable = joueur.m_ptable;
+	m_valeur_main = joueur.m_valeur_main;
+
 }
 
 void Joueur::Initialise(int numero, int argent, std::string pseudo, std::vector<Carte*> main, Table* ptable)
@@ -38,6 +41,7 @@ void Joueur::Initialise(int numero, int argent, std::string pseudo, std::vector<
 	m_pseudo = pseudo;
 	m_main = main;
 	m_ptable = ptable;
+	m_valeur_main = CalculValeurMain();
 }
 
 void Joueur::Miser(int mise, Table* table)

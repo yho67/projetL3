@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 	//on a créé notre Deck. Passons aux joueurs.
 	vector<Carte*> main_vide;
 	Table table(1);
+
 	Joueur player(0, 500, "yho67", main_vide, &table);
 	Participant croupier(main_vide, &table);
 	// notre programme va, dépendant de l'option avec lequel on l'appelle, effectuer divers actions
@@ -102,15 +103,18 @@ switch(option)
 		//calcul du seuil optimal
 		for(int i=0;i<5;i++)
 		{
+			
 			// on initialise la main à vide au cas où.
-			player.SetMain(main_vide);
+			player.ReinitialiseMain();
 			deck = deck_default;
 			deck.Melanger();
 			bool perdu = false;
-			while(player.ValeurMain()<16 && !perdu) // si on est a 17 ou plus on s'arrête
+			while(player.GetValeurMain()<16 && !perdu) // si on est a 17 ou plus on s'arrête
 			{
 				player.Pioche(&deck);
+				player.AfficheMain();
 				perdu = player.Perdu();
+				cout<<"Cette main vaut "<< player.GetValeurMain()<<" points"<<endl;
 			}
 			if(perdu)
 			{
@@ -122,12 +126,14 @@ switch(option)
 			{
 				cout<<endl;
 				cout<<"Voyons la banque"<<endl;cout<<endl;
-				croupier.SetMain(main_vide);
+				croupier.ReinitialiseMain();
 				bool perdu_croupier = false;
-				while(croupier.ValeurMain()<17 && !perdu_croupier) // si on est a 17 ou plus on s'arrête
+				while(croupier.GetValeurMain()<17 && !perdu_croupier) // si on est a 17 ou plus on s'arrête
 				{
 					croupier.Pioche(&deck);
+					croupier.AfficheMain();
 					perdu_croupier = croupier.Perdu();
+					cout<<"Cette main vaut "<< player.GetValeurMain()<<" points"<<endl;
 				}
 				if(perdu_croupier)
 				{
@@ -139,12 +145,12 @@ switch(option)
 				else //si le croupier n'a pas dépassé 21, on compare son score avec celui du joueur
 				{
 					cout<<endl;
-					if(player.ValeurMain()<croupier.ValeurMain())
+					if(player.GetValeurMain()<croupier.GetValeurMain())
 					{
 						//le joueur perd
 						cout<<"perdu"<<endl; 
 					}
-					else if(player.ValeurMain()==croupier.ValeurMain())
+					else if(player.GetValeurMain()==croupier.GetValeurMain())
 					{
 						//egalite
 						cout<<"egalite"<<endl;

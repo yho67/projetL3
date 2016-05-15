@@ -14,6 +14,7 @@ class Participant
   	protected:
 	Table* m_ptable; //pointeur sur table, pour pouvoir interagir avec (classe fille)
   	std::vector<Carte*> m_main; //les cartes que le participant a sur la table
+	int m_valeur_main;
   
   	public:
   	Participant(); //constructeur par défaut
@@ -23,6 +24,7 @@ class Participant
 	//accesseur
 	Table* GetPtable(){return m_ptable;}
 	std::vector<Carte*> GetMain(){return m_main;}
+	int GetValeurMain(){return m_valeur_main;}
 
 	//mutateur
 	void SetTable(Table* ptable){m_ptable = ptable;}
@@ -32,7 +34,8 @@ class Participant
 	void Pioche(Deck* deck);
 	void AfficheMain();
 	bool Perdu();
-	int ValeurMain();
+	int CalculValeurMain();
+	void ReinitialiseMain();
   
   
   
