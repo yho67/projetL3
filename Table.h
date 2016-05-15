@@ -34,7 +34,7 @@ class Table
 	// méthodes particulières
 	void Paye(int numero_joueur, int multiplicateur = 1);
 	void ModifMiseJoueur(int numero_joueur, int mise);
-	Joueur* AjouterJoueur(); // on renvoie un pointeur sur le joueur qu'on a ajouté
+	Joueur* AjouterJoueur(int argent_depart); // on renvoie un pointeur sur le joueur qu'on a ajouté
 	void EnleverJoueur(int numero_joueur);
   
 };

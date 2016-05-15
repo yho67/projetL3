@@ -45,9 +45,6 @@ void Deck::Melanger()
 // on va modifier aleatoirement l'ordre des cartes
 // pour ça il faut commencer par pouvoir faire : [1, 2, 3, 4] --> [3, 2, 4, 1]
 
-	//on commence par initialiser srand()
-	srand(time(NULL));
-
 	//on va créer un vecteur contenant les nombres de 0 à m_nombrescartes-1
 	//on va générer un nombre aléatoire A allant de 0 à m_nombrescartes-1
 	//puis retirer l'entrée numéro A du vecteur
@@ -99,7 +96,7 @@ void Deck::Affiche()
 {
 	for(int i =0; i<m_nombrecartes;i++)
 	{
-		cout<<m_cartesrestantes[i]->GetNumero()<<", "<<m_cartesrestantes[i]->GetCouleur()<<endl;
+		cout<<m_cartesrestantes[i]->GetNumero()<<", "<<m_cartesrestantes[i]->GetCouleur()<<", valeur : "<<m_cartesrestantes[i]->GetValeur()<<endl;
 	}
 	 
 }

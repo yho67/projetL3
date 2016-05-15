@@ -17,33 +17,20 @@
 // prendre en compte la mise du joueur dans les probabilités de la banque
 
 
-// ------------------1ere étape --------------------
-// a programmer :
-// ---un objet "carte" --> arguments : le numéro, la couleur, la valeur
-//                      méthodes : valeuras : si la carte est un as, alors on change la valeur en 1 au lieu de 11
-//
-// ---un objet "deck" --> arguments : nombre de cartes restantes, tableau (vecteur) des cartes restantes (pointeurs sur l'objet carte)
-//                     méthodes : piocher (donne la carte la plus à gauche du tableau des cartes restantes et modifie le nombre de cartes), melanger (modifie aléatoirement l'ordre des cartes dans le tableau)
-//
-// ---un objet "joueur" --> arguments : numéro, pseudo, main (tableau de pointeurs sur des objets cartes), argent
-//			 méthodes : miser (diminue l'argent du jouer et modifie le tableau des mises de l'objet table), Pioche (pioche une carte du deck et l'ajoute à sa main. Si total main>21, on regarde s'il a un as, sinon, remise de mise à 0 dans tableau des mises)
-//
-// ---un objet "table" --> arguments : joueurs (tableau de joueurs, tableau de 6 cases car 6 joueurs max), mises (tableau des mises), 
-//                         méthodes :   Pioche (pioche une carte du deck et l'ajoute à mainbanque. Si total mainbanque>21, on regarde s'il a un as, sinon perdu), paye (on modifie la somme d'argent du joueur), AjouteJoueur (on vérifie qu'on en a pas déjà 6), EnleveJoueur(on met à sa place un "siège vide")
-//
-//
-//
+
 
 
 //----------------------------ne pas oublier--------------------------------
 //
 //pouvoir personnaliser le nombre de joueur max, l'argent de départ (constructeur par défaut), nombre de deck utilisé, grâce à des fichiers.
-//variable continue, dont on passe le pointeur à la méthode joueur (puis perdu) pour savoir si on peut continuer de piocher
-
+//variable "continue", dont on passe le pointeur à la méthode joueur (puis perdu) pour savoir si on peut continuer de piocher
+//2 test pour valeur optimal : un avec paquet tjrs plein, l'autre avec le aquet qu'on vide a chaque fois (on remplit s'il reste 10 cartes ou moins)
+//mettre la main des joueurs qui n'ont pas gagné (pas d'appel Table.Paye pour eux ET qui n'ont pas dépassé 21) à 21
 #include <iostream>
 #include <string>
 #include <vector> 
 #include <cstdlib>
+#include <ctime>
 
 #include "Participant.h"
 #include "Carte.h"
@@ -56,6 +43,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+	//notre programme utilise de l'aléatoire, il faut donc initialiser srand()
+	srand(time(NULL));
+	
 	// on va créer un tableau qui contient nos 52 cartes. (Ce n'est pas le deck ! juste la liste des cartes qu'on utilise).
 	Carte tabCartes[52];
 	for(int i=0; i<13;i++)
@@ -82,20 +72,47 @@ int main(int argc, char *argv[])
 		VectPointeurCartes.push_back(&tabCartes[i]);
 		// /!\ pour appeler les méthodes il faudra alors faire VectPointeurCartes[i]->GetNumero()
 	}
-
+	
+	Deck deck_default(52, VectPointeurCartes); // paquet qu'on ne modifie pas
 	Deck deck(52, VectPointeurCartes);
 	//on a créé notre Deck. Passons aux joueurs.
-	vector<Carte*> Main;
-	Table table(2);
-	Joueur player(0, 500, "yho", Main, &table);
+	vector<Carte*> main;
+	Table table(1);
+	Joueur player(0, 500, "yho67", main, &table);
 	
 	
-	deck.Melanger();
-	deck.Affiche();
 	
-	player.Pioche(&deck);
+	for(int i=0;i<10;i++)
+	{
+		// on initialise la main à vide au cas où.
+		player.SetMain(main);
+		deck = deck_default;
+		deck.Melanger();
+		bool perdu = false;
+		while(player.ValeurMain()<16 && !perdu) // si on est a 17 ou plus on s'arrête
+		{
+			
+			player.Pioche(&deck);
+			perdu = player.Perdu();
+		}
+		if(perdu)
+		{
+			cout<<"perdu"<<endl;
+		}
+		else
+		{
+			cout<<"Voyons la banque"<<endl;
+		}
+		
+	}
+
 
 	
+
+
+	
+
+
 	return 0;
 }
 

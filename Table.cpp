@@ -45,6 +45,9 @@ void Table::Paye(int numero_joueur, int multiplicateur)
 	m_tabjoueur[numero_joueur].SetArgent(money);
 	//et on remet sa mise à 0
 	m_tabmise[numero_joueur] = 0;
+
+	// si on paye le joueur, on remet également sa main à 0 puisque qu'on repart sur un nouveau tour de jeu
+	
 }
 
 void Table::ModifMiseJoueur(int numero_joueur, int mise)
@@ -61,7 +64,7 @@ void Table::ModifMiseJoueur(int numero_joueur, int mise)
 }
 
 
-Joueur* Table::AjouterJoueur()
+Joueur* Table::AjouterJoueur(int argent_depart)
 {
 	// on vérifie qu'il y a encore des sièges vides, si oui, on le remplace par le joueur, on modifie le numéro du joueur pour qu'il corresponde à son indice dans le tableau
 	for(int i=0;i<m_nbre_max_joueur;i++)
@@ -69,6 +72,7 @@ Joueur* Table::AjouterJoueur()
 		if(m_tabjoueur[i].GetNumero()==-1)//si c'est un siège vide
 		{
 			m_tabjoueur[i].SetNumero(i); // on désigne le numéro du joueur ...
+			m_tabjoueur[i].SetArgent(argent_depart); //...on lui met son argent de départ ...
 			m_tabjoueur[i].SetTable(this); // .. et on lui dit qu'il joue a cette table
 			return &m_tabjoueur[i];
 		}

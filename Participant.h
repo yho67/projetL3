@@ -31,7 +31,8 @@ class Participant
 	// méthodes particulières
 	void Pioche(Deck* deck);
 	void AfficheMain();
-	void Perdu(int valeur_main);
+	bool Perdu();
+	int ValeurMain();
   
   
   

@@ -43,7 +43,7 @@ class Joueur : public Participant
 
 	void Initialise(int numero, int argent, std::string pseudo, std::vector<Carte*> main, Table* ptable);
 	void Miser(int mise, Table* table);
-	void Perdu(int valeur_main); // on va juste ajouter la modification des mises lorsque le joueur perd
+	bool Perdu(); // on va juste ajouter la modification des mises lorsque le joueur perd
   
 };
 

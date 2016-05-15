@@ -94,13 +94,18 @@ void Carte::Initialise(int numero, string couleur)
 		cout<< "mauvaise couleur"<<endl;
 		m_couleur = "nul";
 	}
+	//enfin on s'occupe de la valeur (10 pour les tetes, numero=valeur pour le reste, as = 11 de base)
 	if(numero<=10 && numero >=2)
 	{
 		m_valeur = numero;
 	}
+	else if(numero == 1)
+	{
+		m_valeur = 11; //l'as
+	}
 	else
 	{
-		m_valeur = 10;
+		m_valeur = 10;//les tetes
 	}
 	return;
 }

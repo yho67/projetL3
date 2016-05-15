@@ -59,11 +59,14 @@ void Joueur::Miser(int mise, Table* table)
 	}
 }
 
-void Joueur::Perdu(int valeur_main)
+bool Joueur::Perdu()
 {
-	Participant::Perdu(valeur_main); // on veut rajouter le changement des mises à la méthode porté définie dans Personnage
-	m_ptable->ModifMiseJoueur(m_numero, -1); // on remet la mise du joueur a 0;
-	
+	bool perdu = Participant::Perdu(); // on veut rajouter le changement des mises à la méthode porté définie dans Personnage
+	if(perdu)
+	{
+		m_ptable->ModifMiseJoueur(m_numero, -1); // on remet la mise du joueur a 0;
+	}
+	return perdu;	
 }
 
 

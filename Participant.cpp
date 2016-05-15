@@ -38,14 +38,25 @@ void Participant::Pioche(Deck* deck)
 	m_main.push_back(new_carte); // on l'ajoute a la main
 	//on affiche la nouvelle main puis on regarde si on a dépassé la valeur autorisé.
 	AfficheMain();
+}
+
+int Participant::ValeurMain()
+{
 	int valeur_main = 0;
-	bool modif_as = false;
 	for(int i=0; i<m_main.size();i++)
 	{
 		valeur_main+=m_main[i]->GetValeur(); 
 	}
+	return valeur_main;
+}
+
+bool Participant::Perdu()
+{
+
+	bool modif_as = false;
+	bool perdu = false;
 	//si valeur_main dépasse 21, on regarde si on a un as
-	if(valeur_main>21)
+	if(ValeurMain()>21)
 	{
 		for(int i=0; i<m_main.size();i++)
 		{
@@ -59,20 +70,22 @@ void Participant::Pioche(Deck* deck)
 		}
 		if(!modif_as)// si on a pas modifié l'as, on a dépassé 21 irrémédiablement
 		{
-			this->Perdu(valeur_main);	
+			perdu = true;
 		}
 	}
-}
-
-void Participant::Perdu(int valeur_main)
-{
-	cout<<"Cette main a une valeur de "<<valeur_main<<endl;
-	cout<<"Perdu !"<<endl;
+	cout<<"Cette main a une valeur de "<<ValeurMain()<<endl;
 	// on remet les as qu'il a en main a une valeur de 11
-	for(int i=0; i<m_main.size();i++)
+	//si c'est perdu on remet sa main à vide et on remet les as qu'il avait en main à une valeur de 11
+	if(perdu)
 	{
-		m_main[i]->ChangeValeurAs(11);;
+		for(int i=0; i<m_main.size();i++)
+		{
+			m_main[i]->ChangeValeurAs(11);;
+		}
+		std::vector<Carte*> vide; 
+		SetMain(vide);
 	}
+	return perdu;
 }
 
 
