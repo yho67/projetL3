@@ -28,7 +28,9 @@ class Deck
 	std::vector<Carte*> GetCartesRestantes(){return m_cartesrestantes;}
 
 	//mutateur
-	//On ne met pas de mutateur car on ne veut pas pouvoir modifier directement le deck (ce serait de la triche ! ) mais uniquement en passant par les méthodes associés.
+	void SetNombreCartes(int nombrecartes){m_nombrecartes = nombrecartes;}
+	void SetCartesRestantes(std::vector<Carte*> cartesrestantes){m_cartesrestantes = cartesrestantes;}
+	
 
 	// méthodes particulières
 	void Initialise(int nombrecartes, std::vector<Carte*> cartesrestantes);
